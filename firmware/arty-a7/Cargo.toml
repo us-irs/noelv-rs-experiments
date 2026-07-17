@@ -1,0 +1,10 @@
+[package]
+name = "arty_a7"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+riscv-rt = "0.18"
+riscv = "0.16"
+
+noelv = { path = "../noelv" }

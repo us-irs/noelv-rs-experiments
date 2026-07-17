@@ -1,0 +1,11 @@
+[package]
+name = "grlib"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+derive-mmio = "0.7"
+bitbybit = "2"
+arbitrary-int = "2"
+embedded-hal = "1"
+static_assertions = "1"

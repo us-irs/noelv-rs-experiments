@@ -1,0 +1,8 @@
+[package]
+name = "noelv"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+portable-atomic = { version = "1" }
+grlib = { path = "../grlib-rs" }
