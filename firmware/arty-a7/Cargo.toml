@@ -4,7 +4,9 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-riscv-rt = "0.18"
+riscv-rt = { version = "0.18", features = ["single-hart"] }
+# riscv-rt = { version = "0.18", features = ["single-hart", "no-xtvec", "no-xie-xip"] }
+# riscv-rt = { version = "0.18", features = ["no-mhartid", "no-xtvec", "no-xie-xip"] }
 riscv = "0.16"
 
 noelv = { path = "../noelv" }

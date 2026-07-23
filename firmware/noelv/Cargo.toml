@@ -4,5 +4,10 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+riscv-rt = { version = "0.18" }
+riscv = "0.16"
 portable-atomic = { version = "1" }
+derive-mmio = "0.8"
+static_assertions = "1"
 grlib = { path = "../grlib-rs" }
+embedded-hal = "1"
