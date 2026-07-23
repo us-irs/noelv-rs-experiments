@@ -15,11 +15,11 @@ const UART_BAUD: u32 = 115_200;
 fn main() -> ! {
     let core = noelv::CorePeripherals::take().expect("failed to take core peripherals");
     let scaler = calculate_scaler(SYS_CLK as u32, UART_BAUD);
-    let mut uart_tx = noelv::apb_uart::TxWithShiftRegister::new(core.apbuart0, Some(scaler));
+    let mut uart_tx = noelv::apb_uart::TxWithShiftRegister::new(core.apb_uart0, Some(scaler));
 
     writeln!(&mut uart_tx, "-- NOEL-V Rust Sample App --\r").unwrap();
 
-    let (gpio, pins) = gr_gpio::Gpio::new(core.grgpio0);
+    let (gpio, pins) = gr_gpio::Gpio::new(core.gr_gpio);
 
     // LED pin assignments for the Arty-A7
     let mut led0 = gpio.output_pin(pins.p16, gr_gpio::PinState::Low);
