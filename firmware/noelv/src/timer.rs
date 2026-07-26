@@ -55,7 +55,9 @@ impl Delay {
             return;
         }
 
-        let ticks = ((ns as u64) * (self.sys_clk as u64 / 2)).div_ceil(1_000_000_000).max(1);
+        let ticks = ((ns as u64) * (self.sys_clk as u64 / 2))
+            .div_ceil(1_000_000_000)
+            .max(1);
         let start = read_timer();
 
         while read_timer() < start + ticks {

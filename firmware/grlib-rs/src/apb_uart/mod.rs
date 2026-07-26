@@ -38,3 +38,18 @@ impl core::fmt::Write for TxWithShiftRegister {
         Ok(())
     }
 }
+
+impl embedded_io::ErrorType for TxWithShiftRegister {
+    type Error = core::convert::Infallible;
+}
+
+impl embedded_io::Write for TxWithShiftRegister {
+    fn write(&mut self, buf: &[u8]) -> Result<usize, Self::Error> {
+        self.write(buf);
+        Ok(buf.len())
+    }
+
+    fn flush(&mut self) -> Result<(), Self::Error> {
+        Ok(())
+    }
+}
