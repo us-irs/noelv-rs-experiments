@@ -1,3 +1,13 @@
+[target.riscv32imafc-unknown-none-elf]
+rustflags = [
+  "-C", "link-arg=-Tmemory.x",
+  "-C", "link-arg=-Tlink.x",
+]
+
+runner = "just run"
+# runner = "just debug-gdb-gaisler"
+# runner = "just debug-gdb-multiarch"
+
 [target.riscv32imac-unknown-none-elf]
 rustflags = [
   "-C", "link-arg=-Tmemory.x",
@@ -5,8 +15,11 @@ rustflags = [
 ]
 
 runner = "just run"
+# runner = "just debug-gdb-gaisler"
+# runner = "just debug-gdb-multiarch"
 
 [build]
 # Pick ONE of these compilation targets
-target = "riscv32imac-unknown-none-elf"
+target = "riscv32imafc-unknown-none-elf"
+# target = "riscv32imac-unknown-none-elf"
 # target = "riscv32ima-unknown-none-elf"

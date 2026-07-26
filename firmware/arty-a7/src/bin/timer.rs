@@ -24,11 +24,10 @@ static GP_TIMER_INTERRUPT_COUNT: core::sync::atomic::AtomicU32 =
 #[riscv_rt::entry]
 fn main() -> ! {
     let sys_periphs = noelv::SystemPeripherals::take().expect("failed to take core peripherals");
-    let scaler = apb_uart::calculate_scaler(SYS_CLK as u32, UART_BAUD);
-    let mut uart_tx =
-        noelv::apb_uart::TxWithShiftRegister::new(sys_periphs.apb_uart0, Some(scaler));
-
-    writeln!(&mut uart_tx, "-- NOEL-V Timer App --\r").unwrap();
+    let scaler = apb_uart::calculate_scaler(SYS_CLK, UART_BAUD);
+    let mut logger = noelv::apb_uart::TxWithShiftRegister::new(sys_periphs.apb_uart0, Some(scaler));
+    logger.write(b"-- NOEL-V Timer App --\n\r");
+    noelv::log::uart_blocking::init_with_busy_flag(logger, noelv::log::LevelFilter::Trace);
 
     let (gpio, pins) = gr_gpio::Gpio::new(sys_periphs.gr_gpio);
 
@@ -88,13 +87,11 @@ fn main() -> ! {
         led1.toggle();
         led2.toggle();
         led3.toggle();
-        writeln!(
-            &mut uart_tx,
-            "Core timer IRQ counter: {}, EXT timer IRQ counter: {}\r",
+        log::info!(
+            "Core timer IRQ counter: {}, EXT timer IRQ counter: {}",
             CORE_TIMER_INTERRUPT_COUNT.load(core::sync::atomic::Ordering::Relaxed),
             GP_TIMER_INTERRUPT_COUNT.load(core::sync::atomic::Ordering::Relaxed),
-        )
-        .unwrap();
+        );
 
         delay.delay_ms(1000);
     }
@@ -112,10 +109,10 @@ fn machine_timer_handler() {
 fn ext_interrupt_handler() {
     let mut plic = plic::Plic::new(unsafe { noelv::SystemPeripherals::steal_plic() });
     let opt_claim_guard = plic.claim(plic::Context::Hart0MachineExternal);
-    if let Some(guard) = opt_claim_guard {
-        if guard.interrupt() == noelv::Interrupt::GpTimer1 as usize {
-            gptimer_interrupt_handler();
-        }
+    if let Some(guard) = opt_claim_guard
+        && guard.interrupt() == noelv::Interrupt::GpTimer1 as usize
+    {
+        gptimer_interrupt_handler();
     }
 }
 
@@ -131,7 +128,7 @@ fn gptimer_interrupt_handler() {
 #[panic_handler]
 fn panic(info: &core::panic::PanicInfo) -> ! {
     let uart = unsafe { noelv::SystemPeripherals::steal_uart() };
-    let scaler = apb_uart::calculate_scaler(SYS_CLK as u32, UART_BAUD);
+    let scaler = apb_uart::calculate_scaler(SYS_CLK, UART_BAUD);
     let mut uart_tx = noelv::apb_uart::TxWithShiftRegister::new(uart, Some(scaler));
     writeln!(&mut uart_tx, "Panic: {}\r", info).unwrap();
     loop {

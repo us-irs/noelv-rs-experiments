@@ -25,7 +25,7 @@ pub struct Registers {
     _reserved3: [u32; 0x7F700],
     #[mmio(Inner)]
     context_prio_and_claim_complete: [ContextPrioAndClaimCompleteRegs; 0x8],
-    _reserved4: [u32; 0xF7E000]
+    _reserved4: [u32; 0xF7E000],
 }
 
 static_assertions::const_assert_eq!(core::mem::size_of::<Registers>(), 0x4000000);

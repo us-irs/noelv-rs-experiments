@@ -1,7 +1,7 @@
 pub mod regs;
 
-pub use arbitrary_int::u3;
 pub use arbitrary_int::traits::Integer;
+pub use arbitrary_int::u3;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[cfg_attr(feature = "defmt", derive(defmt::Format))]

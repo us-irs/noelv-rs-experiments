@@ -1,4 +1,3 @@
-
 pub mod fields {
     use arbitrary_int::{u4, u6};
 
@@ -101,7 +100,6 @@ pub mod fields {
         #[bits(0..=5, rw)]
         fifo_size: u6,
     }
-
 }
 
 #[derive(derive_mmio::Mmio)]

@@ -3,6 +3,7 @@ pub use grlib;
 pub use grlib::{apb_uart, gp_timer, gr_gpio, plic};
 
 pub mod clint;
+pub mod log;
 pub mod timer;
 
 use portable_atomic::AtomicBool;

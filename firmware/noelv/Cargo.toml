@@ -9,5 +9,9 @@ riscv = "0.16"
 portable-atomic = { version = "1" }
 derive-mmio = "0.8"
 static_assertions = "1"
-grlib = { path = "../grlib-rs" }
+embedded-io = "0.7"
 embedded-hal = "1"
+log = "0.4"
+critical-section = "1"
+
+grlib = { path = "../grlib-rs" }

@@ -49,7 +49,7 @@ pub mod fields {
         #[bit(1, rw)]
         restart: bool,
         #[bit(0, rw)]
-        enable: bool
+        enable: bool,
     }
 }
 
