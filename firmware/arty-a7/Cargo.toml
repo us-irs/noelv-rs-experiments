@@ -5,8 +5,6 @@ edition = "2024"
 
 [dependencies]
 riscv-rt = { version = "0.18", features = ["single-hart"] }
-# riscv-rt = { version = "0.18", features = ["single-hart", "no-xtvec", "no-xie-xip"] }
-# riscv-rt = { version = "0.18", features = ["no-mhartid", "no-xtvec", "no-xie-xip"] }
 libm = "0.2"
 log = "0.4"
 riscv = "0.16"

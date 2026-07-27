@@ -1,0 +1,15 @@
+[package]
+name = "arty_a7_embassy"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+riscv-rt = { version = "0.18", features = ["single-hart"] }
+libm = "0.2"
+log = "0.4"
+embassy-time = { version = "0.5" }
+riscv = { version = "0.16", features = ["critical-section-single-hart"] }
+
+embassy-executor = { version = "0.10", features = ["platform-riscv32", "executor-thread"] }
+
+noelv = { path = "../noelv", features = ["time-driver-mtimer"] }

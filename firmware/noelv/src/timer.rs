@@ -14,6 +14,18 @@ pub fn disable_timer() {
     };
 }
 
+#[inline(always)]
+pub fn enable_interrupt() {
+    unsafe {
+        riscv::interrupt::machine::enable_interrupt(riscv::interrupt::Interrupt::MachineTimer);
+    }
+}
+
+#[inline(always)]
+pub fn disable_interrupt() {
+    riscv::interrupt::machine::disable_interrupt(riscv::interrupt::Interrupt::MachineTimer);
+}
+
 pub fn write_compare_value(hart_id: HartId, value: u64) {
     let mut clint = unsafe { crate::clint::Registers::new_fixed() };
     match hart_id {
@@ -28,6 +40,7 @@ pub fn write_compare_value(hart_id: HartId, value: u64) {
     }
 }
 
+#[inline(always)]
 pub fn read_timer() -> u64 {
     let clint = unsafe { crate::clint::Registers::new_fixed() };
     (clint.read_m_timer_high() as u64) << 32 | clint.read_m_timer_low() as u64

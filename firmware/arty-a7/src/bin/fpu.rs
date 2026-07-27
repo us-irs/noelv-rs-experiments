@@ -42,9 +42,7 @@ fn main() -> ! {
     log::info!("0.1 + 0.2 = {:.8}", 0.1f32 + 0.2f32);
 
     loop {
-        for _ in 0..1000000 {
-            riscv::asm::nop();
-        }
+        riscv::asm::nop();
     }
 }
 
