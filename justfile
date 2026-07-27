@@ -12,7 +12,10 @@ check:
   cd firmware && cargo check
 
 build:
-  cd firmware && cargo build
+  cd firmware && cargo build -p grlib
+  cd firmware && cargo build -p noelv
+  cd firmware && cargo build -p arty_a7
+  cd firmware && cargo build -p arty_a7_embassy
 
 clippy:
   cd firmware && cargo clippy

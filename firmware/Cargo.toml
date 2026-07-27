@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = ["arty-a7", "grlib-rs", "noelv"]
+members = ["arty-a7", "arty-a7-embassy", "grlib", "noelv"]
 
 [profile.release]
 debug = 2

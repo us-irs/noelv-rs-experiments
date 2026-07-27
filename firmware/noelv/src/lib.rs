@@ -1,9 +1,21 @@
+//! # Noel-V platform support library.
+//!
+//! This crate provides Noel-V-specific integration on top of the `grlib` register mappings,
+//! including platform peripherals, interrupt definitions, and timer integration helpers.
+//!
+//! # Features
+//!
+//! - `time-driver-mtimer`: Enables Embassy time-driver support using the core machine timer.
+//!
+//! No default features are enabled.
 #![no_std]
 pub use grlib;
 pub use grlib::{apb_uart, gp_timer, gr_gpio, plic};
 
 pub mod clint;
 pub mod log;
+#[cfg(feature = "time-driver-mtimer")]
+pub mod time_driver_mtimer;
 pub mod timer;
 
 use portable_atomic::AtomicBool;
