@@ -10,10 +10,11 @@ This repository currently contains the following components:
   design to the Arty-A7 board.
 - [`firmware`](./firmware/) contains Rust code for the Noel-V processor. It contains the following
   components:
-    - [`grlib-rs` library](./firmware/grlib-rs/) which contains generic drivers for GRLIB components.
-    - [`noel-v` library](./firmware/noel-v/) which contains Noel-V specific drivers and components.
+    - [`grlib` library](./firmware/grlib/) which contains generic drivers for GRLIB components.
+    - [`noelv` library](./firmware/noelv/) which contains Noel-V specific drivers and components.
     - [`arty-a7` application](./firmware/arty-a7/) which contains various applications you can flash
-      onto the Noel-V.
+    - [`arty-a7-embassy` application](./firmware/arty-a7-embassy/) which contains example apps
+      using the [embassy](https://github.com/embassy-rs/embassy) framework.
 
 ## Prerequisites
 
