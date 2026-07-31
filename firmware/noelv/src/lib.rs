@@ -10,7 +10,7 @@
 //! No default features are enabled.
 #![no_std]
 pub use grlib;
-pub use grlib::{apb_uart, gp_timer, gr_gpio, plic};
+pub use grlib::{apb_uart, gp_timer, gr_gpio, plic, ahb_pnp, apb_pnp};
 
 pub mod clint;
 pub mod log;

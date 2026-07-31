@@ -180,4 +180,56 @@ pub mod uart_blocking {
             _ => (),
         }
     }
+
+    /// Writes formatted arguments to the active UART logger, bypassing the `log` crate: no
+    /// level prefix and no level filtering. Used by the [`crate::uprint`]/[`crate::uprintln`]
+    /// macros.
+    ///
+    /// The whole call is performed under a single lock/guard acquisition, so a line built from
+    /// multiple format arguments is not interleaved with a concurrent `log` call or another
+    /// `print`.
+    pub fn print(args: core::fmt::Arguments) {
+        match LOG_SEL.load(core::sync::atomic::Ordering::Relaxed) {
+            val if val == LOG_SEL_LOCKED => critical_section::with(|cs| {
+                let mut opt_logger = UART_LOGGER_BLOCKING.0.borrow(cs).borrow_mut();
+                if let Some(logger) = opt_logger.as_mut() {
+                    let _ = core::fmt::Write::write_fmt(logger, args);
+                }
+            }),
+            val if val == LOG_SEL_UNSAFE_SINGLE_CORE => {
+                if let Some(_guard) = UartGuard::new(&UART_LOGGER_WITH_BUSY_FLAG.busy) {
+                    let uart_mut = unsafe { &mut *UART_LOGGER_WITH_BUSY_FLAG.uart.get() }.as_mut();
+                    if let Some(uart) = uart_mut {
+                        let _ = core::fmt::Write::write_fmt(uart, args);
+                    }
+                }
+            }
+            _ => (),
+        }
+    }
+}
+
+#[doc(hidden)]
+pub fn _print(args: core::fmt::Arguments) {
+    uart_blocking::print(args);
+}
+
+/// Writes directly to the active UART logger, with no line ending appended and no `log` crate
+/// level prefix or filtering.
+#[macro_export]
+macro_rules! uprint {
+    ($($arg:tt)*) => {
+        $crate::log::_print(format_args!($($arg)*))
+    };
+}
+
+/// Like [`uprint`], but appends `\r\n`.
+#[macro_export]
+macro_rules! uprintln {
+    () => {
+        $crate::uprint!("\r\n")
+    };
+    ($($arg:tt)*) => {
+        $crate::log::_print(format_args!("{}\r\n", format_args!($($arg)*)))
+    };
 }
