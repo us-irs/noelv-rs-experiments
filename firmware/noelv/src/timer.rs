@@ -43,7 +43,14 @@ pub fn write_compare_value(hart_id: HartId, value: u64) {
 #[inline(always)]
 pub fn read_timer() -> u64 {
     let clint = unsafe { crate::clint::Registers::new_fixed() };
-    (clint.read_m_timer_high() as u64) << 32 | clint.read_m_timer_low() as u64
+    loop {
+        let hi = clint.read_m_timer_high();
+        let lo = clint.read_m_timer_low();
+        let hi2 = clint.read_m_timer_high();
+        if hi == hi2 {
+            return (hi as u64) << 32 | lo as u64;
+        }
+    }
 }
 
 pub struct Delay {
